@@ -22,13 +22,17 @@ const EXPECTED_TOOLS = [
     'rank',
     'compare',
     'cashback',
+    'relatedCards',
+    'personas',
+    'intentGroups',
+    'merchants',
 ];
 
 describe('MCP server', () => {
-    it('registers exactly 9 tools', () => {
+    it('registers exactly the expected tools', () => {
         const server = createMcpServer(mockEnv);
         const registered = Object.keys((server as any)._registeredTools ?? {});
-        expect(registered).toHaveLength(9);
+        expect(registered).toHaveLength(EXPECTED_TOOLS.length);
     });
 
     it('registers all expected tool names', () => {

@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { executeIntents } from '../../tools/list-intents.ts';
 
-const mockEnv = { MCP_API_KEY: 'k', OPENWALLET_API_KEY: 'k', OPENWALLET_API_URL: 'http://api.test' } as unknown as import('../../lib/api.ts').Env;
+const mockEnv = { OPENWALLET_API_KEY: 'k', OPENWALLET_API_URL: 'http://api.test' } as unknown as import('../../lib/api.ts').Env;
 
 afterEach(() => vi.restoreAllMocks());
 
@@ -14,7 +14,7 @@ describe('executeIntents', () => {
         const result = await executeIntents(mockEnv);
         expect(result).toEqual(intents);
         const url = (fetch as ReturnType<typeof vi.fn>).mock.calls[0][0] as string;
-        expect(url).toContain('/api/v1/intents');
+        expect(url).toContain('/api/v1/meta/intents');
     });
 
     it('throws on API failure', async () => {
