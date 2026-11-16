@@ -25,6 +25,7 @@ describe('executeCard', () => {
         expect(result).toHaveProperty('fees');
         expect(result).not.toHaveProperty('image');
         expect(result).not.toHaveProperty('sources');
+        expect(result).toHaveProperty('url', 'https://openwallet.vn/the/techcombank-spark');
         const url = (fetch as ReturnType<typeof vi.fn>).mock.calls[0][0] as string;
         expect(url).toContain('/api/v1/cards/techcombank-spark');
     });

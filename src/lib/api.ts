@@ -15,6 +15,7 @@ export interface Env {
 }
 
 const LIVE_API_URL = 'https://api.openwallet.vn';
+const WEB_URL = 'https://openwallet.vn';
 
 async function fetchFrom(baseUrl: string, path: string, apiKey: string, options?: RequestInit): Promise<Response> {
     return fetch(`${baseUrl}${path}`, {
@@ -63,7 +64,9 @@ const BANK_FIELDS = [
 ];
 
 export function stripCard(card: Record<string, unknown>): Record<string, unknown> {
-    return Object.fromEntries(CARD_FIELDS.filter(k => k in card).map(k => [k, card[k]]));
+    const result = Object.fromEntries(CARD_FIELDS.filter(k => k in card).map(k => [k, card[k]]));
+    if (typeof card.id === 'string') result.url = `${WEB_URL}/the/${encodeURIComponent(card.id)}`;
+    return result;
 }
 
 export function stripBank(bank: Record<string, unknown>): Record<string, unknown> {
