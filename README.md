@@ -1,7 +1,7 @@
 # OpenWallet MCP Server
 
-[![MCP v0.1.0](https://img.shields.io/endpoint?url=https%3A%2F%2Fmcp.openwallet.vn%2Fbadge&cacheSeconds=60)](https://mcp.openwallet.vn/health)
-[![API v1.0.0](https://img.shields.io/endpoint?url=https%3A%2F%2Fapi.openwallet.vn%2Fbadge&cacheSeconds=60)](https://api.openwallet.vn/health)
+[![MCP status](https://img.shields.io/endpoint?url=https%3A%2F%2Fmcp.openwallet.vn%2Fbadge&cacheSeconds=60)](https://mcp.openwallet.vn/health)
+[![API status](https://img.shields.io/endpoint?url=https%3A%2F%2Fapi.openwallet.vn%2Fbadge&cacheSeconds=60)](https://api.openwallet.vn/health)
 
 MCP server providing Vietnamese bank card data tools. Hosted at `mcp.openwallet.vn`.
 
@@ -67,7 +67,7 @@ Embed live MCP status in any site:
 
 **Markdown:**
 ```md
-[![MCP v0.1.0](https://img.shields.io/endpoint?url=https%3A%2F%2Fmcp.openwallet.vn%2Fbadge&cacheSeconds=60)](https://mcp.openwallet.vn/health)
+[![MCP status](https://img.shields.io/endpoint?url=https%3A%2F%2Fmcp.openwallet.vn%2Fbadge&cacheSeconds=60)](https://mcp.openwallet.vn/health)
 ```
 
 **HTML:**
@@ -85,19 +85,19 @@ pnpm install
 
 # 2. Set secrets in .dev.vars
 cp .dev.vars.example .dev.vars
-# Fill in MCP_API_KEY, OPENWALLET_API_KEY
+# Fill in MCP_KEYS (JSON array of {key, expires, label}), OPENWALLET_API_KEY
 # Set OPENWALLET_API_URL=http://localhost:8787 for local API
 
 # 3. Start API repo (port 8787) in another terminal — `pnpm dev` in api repo
 
 # 4. Run MCP locally
-pnpm dev   # → http://localhost:8787
+pnpm dev   # → MCP on http://localhost:8001, Inspector on http://localhost:8002
 ```
 
 ## Deployment
 
 ```bash
-wrangler secret put MCP_API_KEY
+wrangler secret put MCP_KEYS
 wrangler secret put OPENWALLET_API_KEY
 pnpm deploy
 ```
