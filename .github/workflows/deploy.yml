@@ -21,6 +21,8 @@ jobs:
 
       - run: pnpm install
 
+      - run: pnpm test
+
       - name: Deploy to Cloudflare Workers
         run: pnpm deploy
         env:
