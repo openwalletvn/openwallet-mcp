@@ -64,3 +64,18 @@ deleted_classes = ["OpenWalletMCP"]
 - New transport created per request, discarded after
 
 **Rule:** Never point local MCP client at prod URL during dev — use `wrangler dev` local instance (`http://localhost:8001`). Stateless transport eliminates the quota issue entirely but the principle holds.
+
+---
+
+## 2026-11-16 — Local `wrangler dev` crashes on applied DO delete-migration
+
+**Symptom:** `wrangler dev` (and `wrangler deploy --dry-run` on Wrangler ≥ 4.1xx) fails with `Cannot apply deleted_classes migration to non-existent class OpenWalletMCP`.
+
+**Root cause:** The `[[migrations]] tag = "v1-delete-do"` block stayed in `wrangler.toml` after it was applied in production (2026-06-06). Local Miniflare re-applies migrations from scratch and the class no longer exists. It also swallowed `compatibility_flags`, which sat below it inside the same TOML table, so `nodejs_compat` was never on.
+
+**Fix:** Removed the migrations block (the Worker has no Durable Objects left, so nothing to migrate) and moved `compatibility_flags` to the top level.
+
+**Also found during the same maintenance pass:**
+- The `public` MCP key expired 2026-08-22 → extended to 2027-12-31. Key expiry dates live in the `MCP_KEYS` secret; check them when reviving the project.
+- CI never ran tests, so 2 stale tests went unnoticed → `pnpm test` now runs before deploy.
+- Local pnpm may be v10 while CI uses v11: regenerate the lockfile with `npx pnpm@11` to match CI.
